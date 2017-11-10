@@ -9,4 +9,4 @@ socket.on('newMessage',(mess) => {
   console.log(mess);
 });
 
-socket.emit('createMessage',{from:'user1',to:'all',text:'Hi there!'})
+// socket.emit('createMessage',{from:'user1',to:'all',text:'Hi there!'})
