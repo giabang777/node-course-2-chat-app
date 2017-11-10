@@ -15,10 +15,19 @@ app.use(express.static(path.join(__dirname,'../public')))
 io.on('connection',(socket) => {
   console.log('Client connected!');
 
+  socket.emit('newMessage',{
+    from:'Admin',
+    text:'Hello, do you need help?',
+    createAt:12131
+  })
+  socket.on('createMessage',(mess) => {
+    console.log(mess);
+  })
+
   socket.on('disconnect',() => {
     console.log('Client has disconnect!');
   });
-  
+
 });
 
 server.listen(port,() => {
