@@ -5,6 +5,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 const port = process.env.PORT;
+const {generateMessage} = require('./utils/message');
 
 var app = express();
 var server = http.createServer(app);
@@ -15,21 +16,19 @@ app.use(express.static(path.join(__dirname,'../public')))
 io.on('connection',(socket) => {
   console.log('Client connected!');
 
-  // socket.emit('newMessage',{
-  //   from:'Admin',
-  //   text:'Hello, do you need help?',
-  //   createAt:12131
-  // })
-  socket.emit('newMessage',{from:'Admin',text:'Welcome to our site!'});
-  socket.broadcast.emit('newMessage',{from:'Admin',text:'User 1 had join chat!'});
+  // socket.emit('newMessage',{from:'Admin',text:'Welcome to our site!'});
+  // socket.broadcast.emit('newMessage',{from:'Admin',text:'User 1 had join chat!'});
+  socket.emit('newMessage',generateMessage("Admin","Welcome to our site!"));
+  socket.broadcast.emit('newMessage',generateMessage("System",`${socket.id} is joined`));
 
   socket.on('createMessage',(mess) => {
-    console.log(mess);
-    io.emit('newMessage',{
-      from:mess.from,
-      text:mess.text,
-      createAt:new Date().getTime()
-    });
+    io.emit('newMessage',generateMessage(mess.from,mess.text));
+    // io.emit('newMessage',{
+    //   from:mess.from,
+    //   text:mess.text,
+    //   createAt:new Date().getTime()
+    // });
+
     // socket.broadcast.emit('newMessage',{
     //   frome:mess.from,
     //   text:mess.text,
