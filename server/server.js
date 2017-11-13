@@ -21,8 +21,9 @@ io.on('connection',(socket) => {
   socket.emit('newMessage',generateMessage("Admin","Welcome to our site!"));
   socket.broadcast.emit('newMessage',generateMessage("System",`${socket.id} is joined`));
 
-  socket.on('createMessage',(mess) => {
+  socket.on('createMessage',(mess, callback) => {
     io.emit('newMessage',generateMessage(mess.from,mess.text));
+    callback("This is from server.");
     // io.emit('newMessage',{
     //   from:mess.from,
     //   text:mess.text,

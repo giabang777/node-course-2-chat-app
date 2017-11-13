@@ -8,6 +8,16 @@
 
 <body>
   <p>Welcome to ChatApp</p>
+
+  <ol id="messages" type="none">
+  </ol>
+
+  <form id="message-form" class="" action="index.html" method="post">
+    <input type="text" name="message" placeholder="Enter message">
+    <button type="submit" name="button">Send</button>
+  </form>
+
+  <script src="\js\libs\jquery-3.2.1.min.js" charset="utf-8"></script>
   <script src="/socket.io/socket.io.js" charset="utf-8"></script>
   <script src="/js/index.js" charset="utf-8"></script>
 </body>
