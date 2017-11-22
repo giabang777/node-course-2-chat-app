@@ -28,7 +28,7 @@ io.on('connection',(socket) => {
       return callback("Name or room name are required.")
     }
 
-    if (_.findIndex(users.users,(u) => u.name===params.name)!==-1) {
+    if (_.findIndex(users.users,(u) => u.name===params.name && u.room===params.room)!==-1) {
       return callback("This name has been taken!")
     }
     socket.join(params.room);
