@@ -43,23 +43,18 @@ io.on('connection',(socket) => {
   });
 
   socket.on('createMessage',(mess, callback) => {
-    io.emit('newMessage',generateMessage(mess.from,mess.text));
+    var user = users.getUser(socket.id);
+    if (user && isRealString(mess.text)) {
+      io.to(user.room).emit('newMessage',generateMessage(user.name,mess.text));
+    }
     callback("This is from server.");
-    // io.emit('newMessage',{
-    //   from:mess.from,
-    //   text:mess.text,
-    //   createAt:new Date().getTime()
-    // });
-
-    // socket.broadcast.emit('newMessage',{
-    //   frome:mess.from,
-    //   text:mess.text,
-    //   createAt:new Date().getTime()
-    // })
   });
 
   socket.on('createLocationMessage',(pos) => {
-    io.emit('newLocationMessage',generateLocationMessage("System",pos.lat,pos.long));
+    var user = users.getUser(socket.id);
+    if (user) {
+      io.to(user.room).emit('newLocationMessage',generateLocationMessage(user.name,pos.lat,pos.long));
+    }
   })
 
   socket.on('disconnect',() => {
